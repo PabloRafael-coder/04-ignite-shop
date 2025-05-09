@@ -1,13 +1,15 @@
 import Image from "next/image";
-import { HomeContainer, Product } from "../styles/pages/home";
+import Head from "next/head";
+import type { GetStaticProps } from "next";
+import { Handbag } from "@phosphor-icons/react";
+
+import { stripe } from "../lib/stripe";
+import type Stripe from "stripe";
 
 import {useKeenSlider} from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
 
-import { stripe } from "../lib/stripe";
-import type { GetStaticProps } from "next";
-import type Stripe from "stripe";
-import Head from "next/head";
+import { HandbagContainer, HomeContainer, Product } from "../styles/pages/home";
 
 interface HomeProps {
   products: {
@@ -44,11 +46,16 @@ export default function Home({ products }: HomeProps) {
             className="keen-slider__slide"
             prefetch={false}
           >
-
           <Image src={product.imageUrl} width={520} height={480} alt=""/>
           <footer>
-            <strong>{product.name}</strong>
-            <span>{product.price}</span>
+            <div>
+              <strong>{product.name}</strong>
+              <span>{product.price}</span>
+            </div>
+
+            <HandbagContainer>
+              <Handbag weight="bold" size={32} color="#fff"/>
+            </HandbagContainer>
           </footer>
         </Product>
           )
@@ -63,7 +70,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price'],
   })
-
+  
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price
 
@@ -71,12 +78,12 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(price.unit_amount / 100),
+      price: new Intl.NumberFormat('pt-BR', 
+        {currency: 'BRL', style: 'currency'}
+      ).format(price.unit_amount / 100),
     }
   })
+
 
   return {
     props: {

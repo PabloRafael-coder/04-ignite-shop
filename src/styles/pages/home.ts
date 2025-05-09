@@ -48,6 +48,12 @@ export const Product = styled(Link, {
       color: '$gray100'
     },
 
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+      maxWidth: 252,
+    },
+
     span: {
       fontSize: '$xl',
       fontWeight: 'bold',
@@ -62,3 +68,9 @@ export const Product = styled(Link, {
     }
   }
 }) 
+
+export const HandbagContainer = styled('div', {
+  background: '$green500',
+  padding: '0.75rem',
+  borderRadius: '6px'
+})
