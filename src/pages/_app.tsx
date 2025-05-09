@@ -1,10 +1,19 @@
+import  * as Dialog  from "@radix-ui/react-dialog";
 import type { AppProps } from "next/app";
 import Image from "next/image";
 import Link from "next/link";
+import { Handbag } from "@phosphor-icons/react";
 
 import logoImg from '../assets/logo.svg'
 
-import { Container, Header } from "../styles/pages/app";
+import {   
+  CartBadge, 
+  CartButton,
+  Container, 
+  Header } 
+from "../styles/pages/app";
+
+import ProductCartModal from "../components/productCartModal";
 
 import { globalStyles } from "../styles/global";
 globalStyles();
@@ -15,6 +24,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <Link href="/">
           <Image src={logoImg} alt="" />
         </Link>
+
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <CartButton>
+              <Handbag size={24} color="#C4C4CC" weight="bold"/>
+              <CartBadge>1</CartBadge>
+            </CartButton>
+          </Dialog.Trigger>
+  
+          <ProductCartModal/>
+        </Dialog.Root>     
       </Header>
 
       <Component {...pageProps} />
