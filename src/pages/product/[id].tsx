@@ -1,12 +1,12 @@
-import { useRouter } from "next/router"
-import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 import type { GetStaticPaths, GetStaticProps } from "next"
-import { stripe } from "../../lib/stripe"
-import type Stripe from "stripe"
 import Image from "next/image"
-import axios from "axios"
-import { useState } from "react"
 import Head from "next/head"
+import axios from "axios"
+import type Stripe from "stripe"
+
+import { stripe } from "../../lib/stripe"
+import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
+import { useState } from "react"
 
 interface ProductProps {
   product: {
@@ -62,7 +62,7 @@ export default function Product({ product }: ProductProps) {
           </p> 
 
           <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>
-            Comprar agora
+            Colocar na sacola
           </button>
         </ProductDetails>
       </ProductContainer>
