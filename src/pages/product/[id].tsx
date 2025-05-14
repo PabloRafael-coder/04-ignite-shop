@@ -6,6 +6,7 @@ import { useShoppingCart } from "use-shopping-cart"
 
 import { stripe } from "../../lib/stripe"
 import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
+import Button from "../../components/Button"
 
 interface ProductProps {
   product: {
@@ -49,9 +50,9 @@ export default function Product({ product }: ProductProps) {
             {product.description}
           </p> 
 
-          <button onClick={() => addItem(product)}>
+          <Button onClick={() => addItem(product)}>
             Colocar na sacola
-          </button>
+          </Button>
         </ProductDetails>
       </ProductContainer>
     </>
@@ -73,6 +74,8 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
   const product = await stripe.products.retrieve(productId, {
     expand: ['default_price']
   }) 
+  
+  console.log(product)
 
   const price = product.default_price as Stripe.Price
 

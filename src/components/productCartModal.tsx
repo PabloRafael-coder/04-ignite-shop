@@ -18,6 +18,7 @@ import {
 } from "../styles/pages/productCartModal";
 
 import { useState } from "react";
+import Button from "./Button";
 
 export default function ProductCartModal() {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
@@ -103,7 +104,7 @@ export default function ProductCartModal() {
               <span>{formateedProductPrice.format(totalPrice)}</span>
             </ProductValueContainer>
 
-            <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Finalizar compra</button>
+            <Button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Finalizar compra</Button>
         </Content>
       </Dialog.Portal>
   )
