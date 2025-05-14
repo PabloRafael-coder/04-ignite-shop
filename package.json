@@ -9,13 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "@radix-ui/react-dialog": "^1.1.13",
     "@stitches/react": "^1.2.8",
     "axios": "^1.8.4",
     "keen-slider": "^6.8.6",
     "next": "15.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "stripe": "^18.1.0"
+    "stripe": "^18.1.0",
+    "use-shopping-cart": "^3.2.0"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",

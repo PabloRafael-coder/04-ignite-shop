@@ -8,6 +8,7 @@ export const Content = styled(Dialog.Content, {
   padding: '4.5rem 3rem 3rem',
   textAlign: 'start',
 
+  minWidth: 480,
   height: '100vh',
   position: 'fixed',
   top: 0,

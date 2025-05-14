@@ -1,6 +1,9 @@
 import  * as Dialog  from "@radix-ui/react-dialog";
 import { X } from "@phosphor-icons/react";
 
+import axios from "axios";
+import { useShoppingCart } from "use-shopping-cart";
+
 import Image from "next/image";
 
 import { 
@@ -14,10 +17,45 @@ import {
   ProductValueContainer 
 } from "../styles/pages/productCartModal";
 
-import sidebar from '../assets/camisetas/1.png';
-import Button from "./Button";
+import { useState } from "react";
 
 export default function ProductCartModal() {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+  const { cartDetails, cartCount,totalPrice, removeItem } = useShoppingCart()
+
+  const checkoutProduct = Object.entries(cartDetails).map(([_, product]) => {
+    return {
+      price: product.defaultPriceId,
+      quantity: product.quantity,
+    }
+  })
+
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+      const response = await axios.post('/api/checkout', {
+        checkoutProduct: checkoutProduct
+      })
+  
+      const { checkoutUrl } = response.data
+      window.location.href = checkoutUrl  
+      
+    } catch (err) {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionar ao checkout!')
+    }    
+  }
+
+  function handleDeleteProduct (id: string) {
+    removeItem(id)
+  }
+
+  const formateedProductPrice = new 
+    Intl.NumberFormat('pt-BR', {
+      currency: 'BRL', 
+      style: 'currency'
+    })
+
   return (
       <Dialog.Portal>
         <Content>
@@ -28,33 +66,44 @@ export default function ProductCartModal() {
           <Dialog.Title>Sacola de compras</Dialog.Title>
 
           <ProductContainer>
-            <Product>
-              <ImageContainer>
-                <Image src={sidebar} alt=""/>
-              </ImageContainer>
-
-              <ProductDetails>
-                <div>
-                  <h3>Camiseta Beyond the Limits</h3>
-                  <span>R$ 79,90</span>
-                </div>
-                
-                <button>Remover</button>
-              </ProductDetails>
-            </Product>
+            {
+              cartDetails && Object.entries(cartDetails).map(([id, product]) => {
+                return (
+                <Product key={id}>
+                  <ImageContainer>
+                    <Image src={product.imageUrl} width={100}  height={90} alt=""/>
+                  </ImageContainer>
+  
+                  <ProductDetails>
+                    <div>
+                      <h3>{product.name}</h3>
+                      <span>{formateedProductPrice.format(product.price)}</span>
+                    </div>
+                    
+                    <button onClick={() => handleDeleteProduct(id)}>Remover</button>
+                  </ProductDetails>
+                </Product>
+                )}
+              ) 
+            }     
           </ProductContainer>
-
           <ProductQuantityContainer>
-            <p>Quantidade</p>
-            <span>3 itens</span>
-          </ProductQuantityContainer>
+              <p>Quantidade</p>
+              <span>
+                {
+                  cartCount > 1 
+                  ? `${cartCount} itens` 
+                  : `${cartCount} item`
+                }
+              </span>
+            </ProductQuantityContainer>
 
-          <ProductValueContainer>
-            <p>Valor total</p>
-            <span>R$ 270,00</span>
-          </ProductValueContainer>
+            <ProductValueContainer>
+              <p>Valor total</p>
+              <span>{formateedProductPrice.format(totalPrice)}</span>
+            </ProductValueContainer>
 
-          <Button>Finalizar compra</Button>
+            <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Finalizar compra</button>
         </Content>
       </Dialog.Portal>
   )
