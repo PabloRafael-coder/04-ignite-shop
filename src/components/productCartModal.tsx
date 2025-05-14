@@ -19,6 +19,7 @@ import {
 
 import { useState } from "react";
 import Button from "./Button";
+import Link from "./link";
 
 export default function ProductCartModal() {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
@@ -51,11 +52,10 @@ export default function ProductCartModal() {
     removeItem(id)
   }
 
-  const formateedProductPrice = new 
-    Intl.NumberFormat('pt-BR', {
+  const formateedProductPrice = new Intl.NumberFormat('pt-BR', {
       currency: 'BRL', 
       style: 'currency'
-    })
+  })
 
   return (
       <Dialog.Portal>
@@ -67,9 +67,8 @@ export default function ProductCartModal() {
           <Dialog.Title>Sacola de compras</Dialog.Title>
 
           <ProductContainer>
-            {
-              cartDetails && Object.entries(cartDetails).map(([id, product]) => {
-                return (
+            {cartDetails && 
+              Object.entries(cartDetails).map(([id, product]) => (
                 <Product key={id}>
                   <ImageContainer>
                     <Image src={product.imageUrl} width={100}  height={90} alt=""/>
@@ -81,30 +80,23 @@ export default function ProductCartModal() {
                       <span>{formateedProductPrice.format(product.price)}</span>
                     </div>
                     
-                    <button onClick={() => handleDeleteProduct(id)}>Remover</button>
+                    <Link onClick={() => handleDeleteProduct(id)}>Remover</Link>
                   </ProductDetails>
                 </Product>
-                )}
-              ) 
-            }     
+                ))}     
           </ProductContainer>
+
           <ProductQuantityContainer>
-              <p>Quantidade</p>
-              <span>
-                {
-                  cartCount > 1 
-                  ? `${cartCount} itens` 
-                  : `${cartCount} item`
-                }
-              </span>
-            </ProductQuantityContainer>
+            <p>Quantidade</p>
+            <span>{cartCount > 1 ? `${cartCount} itens` : `${cartCount} item`}</span>
+          </ProductQuantityContainer>
 
-            <ProductValueContainer>
-              <p>Valor total</p>
-              <span>{formateedProductPrice.format(totalPrice)}</span>
-            </ProductValueContainer>
+          <ProductValueContainer>
+            <p>Valor total</p>
+            <span>{formateedProductPrice.format(totalPrice)}</span>
+          </ProductValueContainer>
 
-            <Button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Finalizar compra</Button>
+          <Button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>Finalizar compra</Button>
         </Content>
       </Dialog.Portal>
   )
