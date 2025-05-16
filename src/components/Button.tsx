@@ -1,5 +1,5 @@
-import type { Attributes, ButtonHTMLAttributes, ReactNode } from "react"
-import { ButtonContainer } from "../styles/pages/button"
+import type { ButtonHTMLAttributes, ReactNode } from "react"
+import { ButtonContainer } from "../styles/components/button"
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
