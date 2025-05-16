@@ -8,10 +8,10 @@ import {
 } from "../../styles/components/cart/cartModal";
 
 import { useState } from "react";
-import Button from "../button";
 import CartProductList from "./cartProductList";
 import CartSummary from "./cartSummary";
 import startCheckout from "../../services/startCheckout";
+import Button from "../Button";
 
 export default function CartModal() {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
