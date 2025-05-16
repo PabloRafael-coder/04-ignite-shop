@@ -10,7 +10,7 @@ import {
   Header } 
 from "../styles/pages/app";
 
-import ProductCartModal from "../components/productCartModal";
+import CartModal from "../components/cart/cartModal";
 
 import { globalStyles } from "../styles/global";
 import { CartProvider } from "use-shopping-cart";
@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Dialog.Root>
           <Cart/>
 
-          <ProductCartModal/>
+          <CartModal/>
         </Dialog.Root>     
       </Header>
 
