@@ -7,6 +7,8 @@ export const CartButton = styled('button', {
   borderRadius: 6,
   cursor: 'pointer',
   position: 'relative',
+  marginLeft: 'auto',
+
 
   svg: {
     color: '$gray300',
